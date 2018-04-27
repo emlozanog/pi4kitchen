@@ -84,7 +84,7 @@ def is_todo_changed():
     global todolist_items
     get_todolist_items = len(response)
 
-    if(get_todolist_items! = todolist_items):
+    if(get_todolist_items != todolist_items):
         print('items chnaged')
         return True        
 
@@ -216,7 +216,7 @@ def displayTasks():
         #draw.rectangle((251,66+LINEHEIGHT, 254, 70+LINEHEIGHT), fill = 255)
         #draw.chord((250,68+LINEHEIGHT, 255, 73+LINEHEIGHT), 0, 360, fill = 0)
         draw.arc((247.5,62+LINEHEIGHT, 257.5, 72+LINEHEIGHT), 0, 360, fill = 0)
-        LINEHEIGHT+ = 26
+        LINEHEIGHT += 26
         #######>>print(task['content'])
     
     #draw.text((250,100),data[2]["content"],font = font_tasks_list,fill = 0)
@@ -227,5 +227,5 @@ def displayTasks():
 
     # You can get frame buffer from an image or import the buffer directly:
     #epd.display_frame(imagedata.MONOCOLOR_BITMAP)
-if __name__ = =  '__main__':
+if __name__ ==  '__main__':
     main()
