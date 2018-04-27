@@ -40,7 +40,7 @@ import operator
 import os 
 import random
 import threading
-
+from datetime import datetime
 
 
 reload(sys)  
@@ -154,7 +154,8 @@ def displayTasks():
     cal_day_number =time.strftime("%d")
     cal_month_str =time.strftime("%B")+' '+ time.strftime("%Y")
 
-    cal_month_cal=str(calendar.month(2017,10)).replace(time.strftime("%B")+' ' +time.strftime("%Y"),' ')
+    date = datetime.now()
+    cal_month_cal=str(calendar.month(date.year,date.month)).replace(time.strftime("%B")+' ' +time.strftime("%Y"),' ')
 
     cal_width=240
 
@@ -190,7 +191,7 @@ def displayTasks():
     draw.text((30,330),icons_list[str(icon)],font=font_weather_icons,fill=255)
 
     draw.line((5,320,225,320),fill=255) #weather line 
-    draw.line((250,320,635,320),fill=0) # footer for pray times
+#    draw.line((250,320,635,320),fill=0) # footer for pray times
 
     draw.rectangle((245,5, 635, 55), fill = 0)
     draw.text((250,10),"Tasks ",font=font_tasks_list_title,fill=255)
