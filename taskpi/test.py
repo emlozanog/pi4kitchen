@@ -26,9 +26,10 @@
 # THE SOFTWARE.
 ##
 
-
-#import epd7in5
-from PIL import Image, ImageDraw, ImageFont
+import epd7in5
+import Image
+import ImageDraw
+import ImageFont
 import calendar
 import time
 import requests
@@ -45,8 +46,8 @@ from datetime import datetime
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
-# import imagedata
 
+epd = epd7in5.EPD()
 EPD_WIDTH = 640
 EPD_HEIGHT = 384
 
@@ -58,26 +59,29 @@ WUNDERGROUND_CITY = 'Madrid'
 
 todolist_items = 0;
 
-
 def main():
 
-        displayTasks()
-        wait = 60
-        refresh_time = 1000
-        start_time = time.time() + refresh_time
+    init()
+    displayTasks()
+    wait = 60
+    refresh_time = 1000
+    start_time = time.time() + refresh_time
 
-        while True:
-            print('restart  : current time ' + str(time.time()/60) + ' started time ' + str(start_time/60))
-            if is_todo_changed():
-                start_time = time.time() + refresh_time  # rest refresh time 
-                displayTasks()
-            elif (time.time()-start_time) > 0:
-                start_time = time.time()+refresh_time # rest refresh time
-                displayTasks()
+    while True:
+        print('restart  : current time ' + str(time.time()/60) + ' started time ' + str(start_time/60))
+        if is_todo_changed():
+            start_time = time.time() + refresh_time  # rest refresh time 
+            displayTasks()
+        elif (time.time()-start_time) > 0:
+            start_time = time.time()+refresh_time # rest refresh time
+            displayTasks()
 
-            time.sleep(wait)
+        time.sleep(wait)
            
-    
+def init():
+    global epd
+    epd.init()
+
 def is_todo_changed():
     response = requests.get("https://beta.todoist.com/API/v8/tasks", params = {"token":TODOIST_TOKEN}).json()
     global todolist_items
@@ -96,13 +100,11 @@ def choose_random_loading_image():
     return images[loading_image]
 
 def displayTasks():
-#    epd = epd7in5.EPD()
-#    epd.init()
 
     # For simplicity, the arguments are explicit numerical coordinates
     image = Image.new('1', (EPD_WIDTH, EPD_HEIGHT), 1)    # 1: clear the frame
     image = Image.open('bmp/'+choose_random_loading_image())
-#    epd.display_frame(epd.get_frame_buffer(image))
+    epd.display_frame(epd.get_frame_buffer(image))
 
 
     response = requests.get("https://beta.todoist.com/API/v8/tasks", params = {"token":TODOIST_TOKEN}).json()
@@ -222,7 +224,7 @@ def displayTasks():
 
     start = 250
 
-#    epd.display_frame(epd.get_frame_buffer(image))
+    epd.display_frame(epd.get_frame_buffer(image))
 
     # You can get frame buffer from an image or import the buffer directly:
     #epd.display_frame(imagedata.MONOCOLOR_BITMAP)
